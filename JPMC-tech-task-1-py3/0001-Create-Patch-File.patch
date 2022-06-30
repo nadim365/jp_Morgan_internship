@@ -1,0 +1,82 @@
+From dd70961b945ce5bd884f85d193a6c01a7221f055 Mon Sep 17 00:00:00 2001
+From: nadim365 <samnad14@gmail.com>
+Date: Wed, 29 Jun 2022 20:34:59 -0400
+Subject: [PATCH] Create Patch File
+
+---
+ .../__pycache__/client3.cpython-39.pyc          | Bin 0 -> 1156 bytes
+ JPMC-tech-task-1-py3/client_test.py             |  16 +++++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 JPMC-tech-task-1-py3/__pycache__/client3.cpython-39.pyc
+
+diff --git a/JPMC-tech-task-1-py3/__pycache__/client3.cpython-39.pyc b/JPMC-tech-task-1-py3/__pycache__/client3.cpython-39.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..f94922965f8bf37da13bf99c75745a444df24637
+GIT binary patch
+literal 1156
+zcmYjROK%%D5GHrItCcOeZv0epVG9I}fI4!KOJJnU!%hnnjo~Elp+tiPC627MSGzJv
+z6|o|pRG@!DKK4KK+(Ul?kL@Y<o_gvmWg8(ePtFc!J`Pqkn@a?j{`-&aZ*@Zcsf>>o
+z`p8ox^A|Ej6wQgCUIrrYG8CbgOfVIQNQEL+OhvyEQB$$1p-iBzlCwbn2}`gH@r=&s
+z0eSmQG$5Qefu63+KY?hz3T)1<$Q8Y!^G_=&?qo!)!5xg<73)xg^%?z{i4CzSw!}7U
+z!y0TnCeTuK*nmygg6%%rBr{6M`8)J3K>}-PxkZpST4WYnpZ%!l8`5rmz<$W#<nw{G
+zqrFZiFMBc{l*aBo+I_U!IUj?*c#^4a-d|?_QbKx2w<|)8A?+iXr^u#=ON(4mTWLXy
+zs1Wa?mw~t0tsPE-X}CpHbeCMRDXpw2>ocq-p6u}>U8->pxXg22_PHGZF8~xM{)^1V
+zV7M*$2^65E#UQSvm7_8%EO(KyW$(<@Y&lB1nR3xcXFXWh(wuz=u*5cXQ9m!GZAUIT
+zAD0$%<#u)aAYH`QF?ONqs=MEbUPkfXap%~8Hl0GMY$$u312AWJQ|E`H^ku0}WYIYt
+zU27?p1G+GStU7+Vzhj{{*s+**=j)x(#luc7&!DgmAB-+s;{@yh_Hg8Tz>AC@#4w?&
+zxEoYA(bubLyjhiAk%xU9l_^ye$Eu-%HwgTc-X#cSIQfEq50)cLSy=(;n@c5^g}T<e
+zTvyL|==*C2qIMl}qjdejf;BMEC0Oh0DqkBd6C)!mp^WMkf10L4nH6a|`SMi-tm5|!
+zmzLj0X!q`!uQ>MarN0KX_9XGyFwTX~p6|Qx;Kg_C&&0}D=XutBpaI9vSP?I5$80tP
+z!A?zCh*)DE<xoVgj$gd~$<afP(`_Mz9738pmf<_N2xCvc(bPrw^2&(XP39VAE=N$f
+zxL@j_w2o<z%Ef*#jEjAxMkm;w9}`{u26Xj6el+}q74{>Ts!7octR4?>j&t~S16_tA
+XOQ_!=3t5oVafhpvhYY=|NSnd`m~$sx
+
+literal 0
+HcmV?d00001
+
+diff --git a/JPMC-tech-task-1-py3/client_test.py b/JPMC-tech-task-1-py3/client_test.py
+index af2bf26..e6b4445 100644
+--- a/JPMC-tech-task-1-py3/client_test.py
++++ b/JPMC-tech-task-1-py3/client_test.py
+@@ -1,5 +1,5 @@
+ import unittest
+-from client3 import getDataPoint
++from client3 import getDataPoint, getRatio
+ 
+ class ClientTest(unittest.TestCase):
+   def test_getDataPoint_calculatePrice(self):
+@@ -8,6 +8,8 @@ class ClientTest(unittest.TestCase):
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+     """ ------------ Add the assertion below ------------ """
++    for quote in quotes:
++      self.assertEqual(getDataPoint(quote), (quote['stock'], quote['top_bid']['price'], quote['top_ask']['price'], (quote['top_bid']['price'] + quote['top_ask']['price']) / 2))
+ 
+   def test_getDataPoint_calculatePriceBidGreaterThanAsk(self):
+     quotes = [
+@@ -15,10 +17,22 @@ class ClientTest(unittest.TestCase):
+       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
+     ]
+     """ ------------ Add the assertion below ------------ """
++    for quote in quotes:
++      self.assertEqual(getDataPoint(quote), (quote['stock'], quote['top_bid']['price'], quote['top_ask']['price'], (quote['top_bid']['price'] + quote['top_ask']['price']) / 2))
+ 
+ 
+   """ ------------ Add more unit tests ------------ """
++  def test_getRatio_calculateRatio(self):
++    prices = {'ABC': 121.2, 'DEF': 121.68}
++    self.assertEqual(getRatio(prices['ABC'], prices['DEF']), 0.9960552268244576)
+ 
++  def test_getRatio_calculateRatio2(self):
++    prices = {'ABC': 121.2, 'DEF': 0}
++    self.assertIsNone(getRatio(prices['ABC'], prices['DEF']))
++
++  def test_getRatio_calculateRatio3(self):
++    prices = {'ABC': 0, 'DEF': 121.68}
++    self.assertEqual(getRatio(prices['ABC'], prices['DEF']), 0)
+ 
+ 
+ if __name__ == '__main__':
+-- 
+2.37.0
+
